@@ -1,56 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>VBTCloud</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      background: #0b0b0b;
-      color: #ffffff;
-    }
-    .container {
-      max-width: 960px;
-      margin: 80px auto;
-      padding: 24px;
-    }
-    h1 {
-      font-size: 44px;
-      margin-bottom: 12px;
-    }
-    p {
-      color: #b3b3b3;
-      font-size: 18px;
-    }
-    .card {
-      background: #151515;
-      border-radius: 14px;
-      padding: 24px;
-      margin-top: 40px;
-    }
-    footer {
-      margin-top: 60px;
-      text-align: center;
-      font-size: 14px;
-      color: #666;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>VBTCloud</h1>
-    <p>From idea to live deployment.</p>
 
-    <div class="card">
-      <p>This platform is under active development.</p>
-      <p>You choose hosting and domain. AI handles execution.</p>
+  <nav class="nav">
+    <div class="logo">VBTCloud</div>
+    <div class="nav-actions">
+      <button class="ghost">Docs</button>
+      <button class="primary">Get Started</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>
+        Build & Deploy<br />
+        <span>Anything</span> with AI
+      </h1>
+
+      <p>
+        From idea to live URL.  
+        You choose hosting and domain.  
+        VBTCloud handles execution.
+      </p>
+
+      <div class="hero-actions">
+        <button class="primary large">Start Building</button>
+        <button class="ghost large">See How It Works</button>
+      </div>
     </div>
 
-    <footer>
-      Powered by ExplorVBT
-    </footer>
-  </div>
+    <div class="hero-visual">
+      <div class="glass-card">
+        <div class="card-title">Deployment Ready</div>
+        <div class="card-row">✔ Hosting selected</div>
+        <div class="card-row">✔ Domain configured</div>
+        <div class="card-row">✔ Environment validated</div>
+      </div>
+
+      <div class="glass-card floating">
+        <div class="card-title">Live URL</div>
+        <div class="url">https://project.vbtcloud.app</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Powered by ExplorVBT
+  </footer>
+
 </body>
 </html>
