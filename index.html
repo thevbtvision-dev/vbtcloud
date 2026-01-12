@@ -6,67 +6,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ======================
-   RESET
-====================== */
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
-  font-family: Inter, system-ui, -apple-system, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   background: #ffffff;
-  color: #0e0e0e;
+  color: #0d0d0d;
   overflow: hidden;
 }
 
-/* ======================
-   BACKGROUND ENERGY
-====================== */
+/* ===== BACKGROUND AI ENERGY ===== */
 .bg {
   position: fixed;
   inset: 0;
-  z-index: 0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(0,0,0,0.06), transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 40%);
-  animation: drift 12s ease-in-out infinite alternate;
+    radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(0,0,0,0.06), transparent 45%);
+  transition: background-position 0.2s linear;
+  z-index: 0;
 }
 
-@keyframes drift {
-  from { transform: translateY(0px); }
-  to { transform: translateY(-20px); }
-}
-
-/* ======================
-   HEADER
-====================== */
+/* ===== HEADER ===== */
 .header {
-  position: relative;
-  z-index: 2;
   height: 72px;
   padding: 0 56px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #e6e6e6;
+  align-items: center;
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+  z-index: 2;
 }
 
-.logo {
-  font-weight: 700;
-  letter-spacing: -0.4px;
-}
+.logo { font-weight: 700; }
 
 .header button {
+  border: 1px solid #ccc;
   background: transparent;
-  border: 1px solid #cfcfcf;
   padding: 8px 18px;
   border-radius: 12px;
-  font-weight: 500;
-  cursor: pointer;
 }
 
-/* ======================
-   CANVAS
-====================== */
+/* ===== MAIN CANVAS ===== */
 .canvas {
   position: relative;
   z-index: 1;
@@ -76,71 +57,52 @@ body {
   justify-content: center;
 }
 
-/* ======================
-   CORE PROMPT
-====================== */
+/* ===== CORE UI ===== */
 .prompt {
-  width: 100%;
   max-width: 760px;
+  width: 100%;
   padding: 0 24px;
-  animation: rise 0.9s ease forwards;
 }
 
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.prompt h1 {
+h1 {
   font-size: 48px;
-  font-weight: 600;
   letter-spacing: -1px;
   margin-bottom: 28px;
 }
 
-.input-wrap {
-  background: #fff;
-  border: 1px solid #d9d9d9;
+.box {
+  background: white;
+  border: 1px solid #d8d8d8;
   border-radius: 18px;
   padding: 22px;
   transition: all 0.3s ease;
 }
 
-.input-wrap:hover {
-  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-}
-
-.input-wrap:focus-within {
+.box.active {
+  box-shadow: 0 30px 70px rgba(0,0,0,0.12);
   border-color: #111;
-  box-shadow: 0 0 0 6px rgba(0,0,0,0.06);
 }
 
 textarea {
   width: 100%;
   border: none;
   resize: none;
-  outline: none;
   font-size: 17px;
-  font-family: inherit;
-  color: #111;
+  outline: none;
   background: transparent;
 }
 
-.helper {
-  margin-top: 12px;
+.status {
+  margin-top: 14px;
   font-size: 13px;
   color: #666;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* ======================
-   ACTION
-====================== */
+.status.visible { opacity: 1; }
+
+/* ===== ACTION ===== */
 .action {
   margin-top: 32px;
   display: flex;
@@ -148,35 +110,32 @@ textarea {
 }
 
 .action button {
-  background: #0f0f0f;
-  color: #fff;
-  border: none;
-  padding: 14px 26px;
+  padding: 14px 28px;
   border-radius: 14px;
+  background: #0d0d0d;
+  color: white;
+  border: none;
   font-weight: 600;
   cursor: pointer;
+  opacity: 0.4;
   transition: all 0.25s ease;
 }
 
-.action button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(0,0,0,0.25);
+.action button.ready {
+  opacity: 1;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
 }
 
-/* ======================
-   RESPONSIVE
-====================== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 640px) {
-  .prompt h1 {
-    font-size: 34px;
-  }
+  h1 { font-size: 34px; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
+<div class="bg" id="bg"></div>
 
 <div class="header">
   <div class="logo">VBTCloud</div>
@@ -187,18 +146,46 @@ textarea {
   <div class="prompt">
     <h1>What do you want to build?</h1>
 
-    <div class="input-wrap">
-      <textarea rows="4" placeholder="Describe your website or app…"></textarea>
-      <div class="helper">
-        Example: AI SaaS with auth, billing, and dashboard
-      </div>
+    <div class="box" id="box">
+      <textarea id="input" rows="4" placeholder="Describe your website or app…"></textarea>
+      <div class="status" id="status">Analyzing intent…</div>
     </div>
 
     <div class="action">
-      <button>Continue</button>
+      <button id="continue">Continue</button>
     </div>
   </div>
 </div>
+
+<script>
+const input = document.getElementById("input");
+const box = document.getElementById("box");
+const status = document.getElementById("status");
+const button = document.getElementById("continue");
+const bg = document.getElementById("bg");
+
+let typingTimer;
+
+input.addEventListener("input", () => {
+  box.classList.add("active");
+  status.classList.add("visible");
+  button.classList.add("ready");
+
+  status.textContent = "Understanding your idea…";
+
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(() => {
+    status.textContent = "Preparing build plan…";
+  }, 900);
+});
+
+document.addEventListener("mousemove", e => {
+  const x = (e.clientX / window.innerWidth) * 100;
+  const y = (e.clientY / window.innerHeight) * 100;
+  bg.style.setProperty("--x", `${x}%`);
+  bg.style.setProperty("--y", `${y}%`);
+});
+</script>
 
 </body>
 </html>
