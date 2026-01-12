@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>VBTCloud</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* ======================
+   RESET + BASE
+====================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #ffffff;
+  color: #0f0f0f;
+}
+
+/* ======================
+   TOP BAR
+====================== */
+.header {
+  height: 64px;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.logo {
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.header button {
+  background: transparent;
+  border: 1px solid #d0d0d0;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ======================
+   CANVAS
+====================== */
+.canvas {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ======================
+   CORE PROMPT
+====================== */
+.prompt {
+  width: 100%;
+  max-width: 720px;
+  padding: 0 24px;
+  animation: fadeUp 0.6s ease-out;
+}
+
+.prompt h1 {
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+  margin-bottom: 24px;
+}
+
+.input-wrap {
+  border: 1px solid #d6d6d6;
+  border-radius: 16px;
+  padding: 20px;
+  transition: border 0.25s ease, box-shadow 0.25s ease;
+}
+
+.input-wrap:focus-within {
+  border-color: #111;
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+}
+
+textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  outline: none;
+  font-size: 16px;
+  font-family: inherit;
+  color: #111;
+}
+
+.helper {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #6b6b6b;
+}
+
+/* ======================
+   ACTION
+====================== */
+.action {
+  margin-top: 28px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action button {
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.action button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ======================
+   MOTION
+====================== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ======================
+   RESPONSIVE
+====================== */
+@media (max-width: 640px) {
+  .prompt h1 {
+    font-size: 32px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo">VBTCloud</div>
+  <button>Sign in</button>
+</div>
+
+<div class="canvas">
+  <div class="prompt">
+    <h1>What do you want to build?</h1>
+
+    <div class="input-wrap">
+      <textarea rows="4" placeholder="Describe your website or app..."></textarea>
+      <div class="helper">
+        Example: AI SaaS platform with authentication and payments
+      </div>
+    </div>
+
+    <div class="action">
+      <button>Continue</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
